@@ -9,7 +9,7 @@ COPY target/*.jar app.jar
 
 
 # Copiar la wallet desde la ruta en tu máquina local
-#COPY ./wallet /app/wallet
+COPY ./wallet /app/wallet
 
 # Exponer el puerto en el que se ejecutará el backend
 EXPOSE 8080

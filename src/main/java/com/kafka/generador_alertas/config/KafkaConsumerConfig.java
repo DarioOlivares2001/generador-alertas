@@ -7,12 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import com.kafka.generador_alertas.dto.SignoVitalDTO;
+import com.kafka.generador_alertas.dto.AlertDTO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +24,13 @@ public class KafkaConsumerConfig {
     private String bootstrapServers;
 
     @Bean
-    public ConsumerFactory<String, SignoVitalDTO> consumerFactory() {
+    public ConsumerFactory<String, AlertDTO> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "alert-group");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         
-        JsonDeserializer<SignoVitalDTO> deserializer = new JsonDeserializer<>(SignoVitalDTO.class);
+        JsonDeserializer<AlertDTO> deserializer = new JsonDeserializer<>(AlertDTO.class);
         deserializer.setRemoveTypeHeaders(false);
         deserializer.addTrustedPackages("com.kafka.generador_alertas.dto");
         deserializer.setUseTypeMapperForKey(true);
@@ -44,8 +43,8 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, SignoVitalDTO> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, SignoVitalDTO> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, AlertDTO> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, AlertDTO> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
