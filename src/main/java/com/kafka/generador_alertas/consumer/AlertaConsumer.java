@@ -17,6 +17,6 @@ public class AlertaConsumer {
     public void consumirAlerta(AlertDTO alerta) {
         System.out.println("Recibido: " + alerta);
         alertaService.saveAlert(alerta);
-        System.out.println("⚠️ Alerta generada y enviada a la bd: " + alerta);
+        System.out.println("Alerta generada y enviada a la bd: " + alerta);
     }
 }
